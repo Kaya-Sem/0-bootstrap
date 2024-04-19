@@ -25,19 +25,17 @@ function farmerid_valid() {
 }
 
 function update_trigger(initialAllValid) {
+    const regex = /^\d+$/;
     var fid = $("#farmerid").val();
 
-    // farmer id needs to be a positive non null integer with no coma or dot
-    // check related to issue #4
-    fid = fid.split('.').join("").split(',').join("");
-
-    if(/\D/.test(fid)) {
-        $('#farmerid-cleared').html("Invalid");
+    if(fid === "") {
+        $('#farmerid-cleared').html("Missing");
         return farmerid_invalid();
     }
 
-    if(fid == "") {
-        $('#farmerid-cleared').html("Missing");
+    // the fid (farmer id) may only contain integers 0-9
+    if(! regex.test(fid)) {
+        $('#farmerid-cleared').html("Invalid");
         return farmerid_invalid();
     }
 
@@ -45,10 +43,7 @@ function update_trigger(initialAllValid) {
 
     $('#farmerid-cleared').html(fid);
 
-    if(Number.isInteger(fid) && fid > 0)
-        return farmerid_valid();
-
-    return farmerid_invalid();
+    return farmerid_valid();
 }
 
 function update_url() {
